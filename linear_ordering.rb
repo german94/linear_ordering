@@ -16,6 +16,7 @@ class LinearOrderingSolutionsGenerator
 
   def generate_solution
     generate_initial_population
+    set_initial_solution
     @max_iterations.times do
       parents = @parents_selection_criteria.select(population: @population)
       offspring = @crossover_criteria.cross(parents: parents)
@@ -25,19 +26,18 @@ class LinearOrderingSolutionsGenerator
     end
   end
 
-  def self.select_best(population:, matrix:)#lo movi aca por ahora pero, habria que ver bien donde dejarlo
-    candidates.inject(candidates.first) do |current_best, candidate| #candidates deberia ser population no?
-      #quizas current_best_fitness_value podria declararse afuera, entonces se "cachea" y no se tiene que recalcular
-      #en cada iteracion del inject, que tal vez no cambie si se encuentra el mejor al principio por ejemplo
-      current_best_fitness_value = current_best.fitness_value
-      candidate_fitness_value = candidate.fitness_value
-      current_best_fitness_value < candidate_fitness_value ? candidate : current_best # no es necesario asignarselo a current_best??''
-    end
+private
+  def select_best
+    candidate = Genotype.select_best(population: @population, matrix: original_matrix)
+    @best_solution = @best_solution.fitness_value < candidate.fitness_value ? candidate : @best_solution
   end
 
-#private
+  def set_initial_solution
+    @best_solution = @population.first
+  end
+
   def generate_initial_population
-   @population = Set.new # hay alguna razon  por la que no se define population en el initialize?  
+   @population = Set.new # hay alguna razon  por la que no se define population en el initialize?
     loop do
       row = [*0..dimension - 1].shuffle
       column = [*0..dimension - 1].shuffle
@@ -45,8 +45,5 @@ class LinearOrderingSolutionsGenerator
       break if @population.size == @population_size
     end
   end
-
-
-
 
 end

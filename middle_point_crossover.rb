@@ -1,4 +1,10 @@
+require 'genotype'
+
 class MiddlePointCrossover
+  def initialize(matrix:)
+    @original_matrix = matrix
+  end
+
   def cross(parents:)
     parent_1, parent_2 = parents[0], parents[1]
     [generate_child(parent_1, parent_2), generate_child(parent_2, parent_1)]
@@ -6,7 +12,7 @@ class MiddlePointCrossover
 
 private
   def generate_child(parent_1, parent_2)
-    Genotype.new cross_elements(parent_1.rows, parent_2.rows), cross_elements(parent_1.cols, parent_2.cols)
+    Genotype.new cross_elements(parent_1.rows, parent_2.rows), cross_elements(parent_1.cols, parent_2.cols), @original_matrix
   end
 
   def cross_elements(parent_1_elements, parent_2_elements)
