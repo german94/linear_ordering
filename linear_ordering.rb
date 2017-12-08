@@ -29,7 +29,7 @@ class LinearOrderingSolutionsGenerator
 
 private
   def select_best
-    candidate = Genotype.select_best(population: @population, matrix: original_matrix)
+    candidate = Genotype.select_best(candidates: @population, matrix: original_matrix)
     @best_solution = @best_solution.fitness_value < candidate.fitness_value ? candidate : @best_solution
   end
 

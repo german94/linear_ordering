@@ -45,7 +45,7 @@ class Genotype
     @fitness_value
   end
 
-  def self.select_best(population:, matrix:)
+  def self.select_best(candidates:, matrix:)
     candidates.inject(candidates.first) do |current_best, candidate|
       current_best_fitness_value = current_best.fitness_value
       candidate_fitness_value = candidate.fitness_value
