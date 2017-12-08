@@ -46,4 +46,14 @@ class Genotype
   def columns
     @columns
   end
+
+  def self.select_best(population:, matrix:)
+    candidates.inject(candidates.first) do |current_best, candidate|
+      #quizas current_best_fitness_value podria declararse afuera, entonces se "cachea" y no se tiene que recalcular
+      #en cada iteracion del inject, que tal vez no cambie si se encuentra el mejor al principio por ejemplo
+      current_best_fitness_value = current_best.calculate_fitness_function(matrix)
+      candidate_fitness_value = candidate.calculate_fitness_function(matrix)
+      current_best_fitness_value < candidate_fitness_value ? candidate : current_best
+    end
+  end
 end
