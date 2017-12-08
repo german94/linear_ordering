@@ -24,6 +24,7 @@ class LinearOrderingSolutionsGenerator
       select_survivors  #falta implementarlo y decidir si lo vamos a hacer configurable o no (depende de cuanto vayamos a querer experimentar con esto)
       select_best
     end
+    @best_solution
   end
 
 private
