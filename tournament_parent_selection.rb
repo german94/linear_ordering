@@ -8,6 +8,6 @@ class TournamentParentSelection
 
   def select(population:)
     possible_parents = population.to_a.sample(@num_of_random_elections) #sample no funca con sets asi que hay que pasarlo a array
-    Genotype.select_best(population: possible_parents, matrix: @original_matrix)
+    Genotype.select_best(candidates: possible_parents, matrix: @original_matrix)
   end
 end

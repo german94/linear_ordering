@@ -31,6 +31,14 @@ class Genotype
     permuted_matrix
   end
 
+  def rows
+  	@rows	
+  end
+
+  def cols
+  	@columns
+  end
+
   def permute_columns(permuted_matrix)
     final_matrix = @rows.inject([]) { |matrix, _| matrix << [] }
     @columns.each do |col|
