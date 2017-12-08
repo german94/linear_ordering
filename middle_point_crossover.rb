@@ -14,7 +14,7 @@ private
     crossed_elements = parent_1_elements[0..middle_point] #chequear esto, el 0 y middle_point estan incluidos
     parent_2_elements.each do |elem|
       break if crossed_elements.size == parent_1_elements
-      crossed_elements << elem
+      crossed_elements << elem unless crossed_elements.include? elem
     end
     cross_elements
   end

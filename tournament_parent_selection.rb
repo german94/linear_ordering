@@ -1,4 +1,4 @@
-require 'genotype'
+require './genotype'
 
 class TournamentParentSelection
   def initialize(num_of_random_elections:, original_matrix:)

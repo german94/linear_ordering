@@ -1,12 +1,7 @@
-require 'genotype'
+require './genotype'
 
 class LinearOrderingSolutionsGenerator
-  def initialize(population_size:,
-                 original_matrix:,
-                 max_iterations:,
-                 parent_selection_criteria:,
-                 crossover_criteria:,
-                 mutation_criteria:)
+  def initialize(population_size:, original_matrix:, max_iterations:, parent_selection_criteria:, crossover_criteria:, mutation_criteria:)
     @population_size = population_size
     @original_matrix = original_matrix
     @max_iterations = max_iterations
@@ -16,7 +11,7 @@ class LinearOrderingSolutionsGenerator
   end
 
   def dimension
-    @original_matrix[0].size
+    @original_matrix.size
   end
 
   def generate_solution
@@ -30,12 +25,28 @@ class LinearOrderingSolutionsGenerator
     end
   end
 
-private
+  def self.select_best(population:, matrix:)#lo movi aca por ahora pero, habria que ver bien donde dejarlo
+    candidates.inject(candidates.first) do |current_best, candidate| #candidates deberia ser population no?
+      #quizas current_best_fitness_value podria declararse afuera, entonces se "cachea" y no se tiene que recalcular
+      #en cada iteracion del inject, que tal vez no cambie si se encuentra el mejor al principio por ejemplo
+      current_best_fitness_value = current_best.fitness_value
+      candidate_fitness_value = candidate.fitness_value
+      current_best_fitness_value < candidate_fitness_value ? candidate : current_best # no es necesario asignarselo a current_best??''
+    end
+  end
+
+#private
   def generate_initial_population
-    @population = Set.new
+   @population = Set.new # hay alguna razon  por la que no se define population en el initialize?  
     loop do
-      @population << (Genotype.new [*0..dimension - 1].shuffle [*0..dimension - 1].shuffle)
+      row = [*0..dimension - 1].shuffle
+      column = [*0..dimension - 1].shuffle
+      @population << Genotype.new(row, column, @original_matrix)
       break if @population.size == @population_size
     end
   end
+
+
+
+
 end
