@@ -1,14 +1,13 @@
 require 'set'
 
 class Genotype
-  def initialize(rows, cols, original_matrix)
+  def initialize(rows, cols)
     @rows = rows
     @columns = cols
-    @original_matrix = original_matrix
   end
 
-  def fitness
-    permuted_matrix = create_permuted_matrix
+  def calculate_fitness_function(original_matrix)
+    permuted_matrix = create_permuted_matrix(original_matrix)
     total = 0
     @rows.size.times do |i|
       for j in (i + 1)..@columns
@@ -18,15 +17,14 @@ class Genotype
     total
   end
 
-  def create_permuted_matrix
-    permute_columns(permute_rows)
-    # permute_rows
+  def create_permuted_matrix(original_matrix)
+    permute_columns(permute_rows(original_matrix))
   end
 
-  def permute_rows
+  def permute_rows(original_matrix)
     permuted_matrix = []
     @rows.each do |row|
-      permuted_matrix << @original_matrix[row]
+      permuted_matrix << original_matrix[row]
     end
     permuted_matrix
   end
