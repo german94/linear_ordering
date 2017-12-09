@@ -34,13 +34,14 @@ private
     roulette
   end
 
-  def population_with_probabilities(population:, without:)
+  def generate_probabilities(population:, without:)
     normalized_genotypes = normalize_fitness_values(population: population, without: without)
     normalized_fitness_sum = normalized_genotypes.inject(0) { |sum, current| sum + current[:normalized_fitness_value] }
     population_probabilities = {}
     normalized_genotypes.each do |genotype, normalized_fitness_value|
       population_probabilities[genotype] = normalized_fitness_value / normalized_fitness_sum
     end
+    population_probabilities
   end
 
   #esto es necesario porque si algun fitness_value es negativo entonces el calculo de la probabilidad se caga
