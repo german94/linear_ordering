@@ -51,6 +51,7 @@ private
     end
     normalized_genotypes = []
     population.each do |genotype|
+      next if without.include?(genotype)
       normalized_genotypes << { genotype: genotype, normalized_fitness_value: genotype.fitness_value + min_fitness_value.abs + 1 }
     end
     normalized_genotypes
