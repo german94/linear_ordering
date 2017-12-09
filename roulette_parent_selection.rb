@@ -39,7 +39,7 @@ private
     normalized_fitness_sum = normalized_genotypes.inject(0) { |sum, current| sum + current[:normalized_fitness_value] }
     population_probabilities = {}
     normalized_genotypes.each do |genotype, normalized_fitness_value|
-      population_probabilities[genotype] = normalized_fitness_value / normalized_fitness_sum
+      population_probabilities[genotype] = normalized_fitness_value.to_f / normalized_fitness_sum
     end
     population_probabilities
   end
