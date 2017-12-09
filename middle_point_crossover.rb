@@ -16,11 +16,10 @@ private
   end
 
   def cross_elements(parent_1_elements, parent_2_elements)
-
   	middle_point = (parent_1_elements.size / 2) - 1 #porque indexa desde cero , sino estoy agarrando mas de la mitad
   	start_point = rand(0..middle_point)
   	end_point = rand((start_point + 1)..(parent_1_elements.size - 1))
-    
+
     crossed_elements = parent_1_elements[start_point..end_point]
     parent_2_elements.each do |elem|
       break if crossed_elements.size == parent_1_elements

@@ -32,7 +32,7 @@ class Genotype
   end
 
   def rows
-  	@rows	
+  	@rows
   end
 
   def cols
@@ -53,19 +53,21 @@ class Genotype
     @fitness_value
   end
 
-  def self.select_best(candidates:)
-    candidates.inject(candidates.first) do |current_best, candidate|
-      current_best_fitness_value = current_best.fitness_value
-      candidate_fitness_value = candidate.fitness_value
-      current_best_fitness_value < candidate_fitness_value ? candidate : current_best
-    end
+  def self.select_worst(candidates:)
+    criteria = Proc.new { |current, candidate| current.fitness_value < candidate.fitness_value ? current : candidate }
+    self.select(candidates: candidates,
+                selection_criteria: criteria)
   end
 
-  def self.select_worst(candidates:)
-    candidates.inject(candidates.first) do |current_worst, candidate|
-      current_worst_fitness_value = current_worst.fitness_value
-      candidate_fitness_value = candidate.fitness_value
-      current_worst_fitness_value > candidate_fitness_value ? candidate : current_worst
+  def self.select_best(candidates:)
+    criteria = Proc.new { |current, candidate| current.fitness_value > candidate.fitness_value ? current : candidate }
+    self.select(candidates: candidates,
+                selection_criteria: criteria)
+  end
+
+  def self.select(candidates:, selection_criteria:)
+    candidates.inject(candidates.first) do |current_selected, candidate|
+      selection_criteria.call current_selected, candidate
     end
   end
 end
