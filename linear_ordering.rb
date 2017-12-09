@@ -1,13 +1,14 @@
 require './genotype'
 
 class LinearOrderingSolutionsGenerator
-  def initialize(population_size:, original_matrix:, max_iterations:, parent_selection_criteria:, crossover_criteria:, mutation_criteria:)
+  def initialize(population_size:, original_matrix:, max_iterations:, parent_selection_criteria:, crossover_criteria:, mutation_criteria:, survivor_criteria:)
     @population_size = population_size
     @original_matrix = original_matrix
     @max_iterations = max_iterations
     @parent_selection_criteria = parent_selection_criteria
     @crossover_criteria = crossover_criteria
     @mutation_criteria = mutation_criteria
+    @survivor_criteria = survivor_criteria
   end
 
   def dimension
@@ -18,11 +19,12 @@ class LinearOrderingSolutionsGenerator
     generate_initial_population
     set_initial_solution
     @max_iterations.times do
-    	firstParent = @parent_selection_criteria.select(population: @population)
+    	firstParent = @parent_selection_criteria.select(population: @population)#arreglar para no tener que repetir la busqueda
     	secondParent = @parent_selection_criteria.select(population: @population)
    		offspring = @crossover_criteria.cross(parents: [firstParent, secondParent])
-   	#	offspring = mutation_criteria.mutate(offspring: offspring) #falta implementar algun criterio de mutacion
-   	#	select_survivors  #falta implementarlo y decidir si lo vamos a hacer configurable o no (depende de cuanto vayamos a querer experimentar con esto)
+   		@mutation_criteria.mutate(offspring: offspring, original_matrix: @original_matrix) 
+   		@survivor_criteria.select(population: @population)
+		addNewOffspring(offspring)
 		select_best
     end
     @best_solution
@@ -30,10 +32,15 @@ class LinearOrderingSolutionsGenerator
 
 private
   def select_best
-    candidate = Genotype.select_best(candidates: @population, matrix: @original_matrix)
+    candidate = Genotype.select_best(candidates: @population)
     @best_solution = @best_solution.fitness_value < candidate.fitness_value ? candidate : @best_solution
   end
 
+  def addNewOffspring(offspring)
+ 	@population.add(offspring[0])
+ 	@population.add(offspring[1])
+  end
+  
   def set_initial_solution
     @best_solution = @population.first
   end

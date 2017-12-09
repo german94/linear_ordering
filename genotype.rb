@@ -53,11 +53,19 @@ class Genotype
     @fitness_value
   end
 
-  def self.select_best(candidates:, matrix:)
+  def self.select_best(candidates:)
     candidates.inject(candidates.first) do |current_best, candidate|
       current_best_fitness_value = current_best.fitness_value
       candidate_fitness_value = candidate.fitness_value
       current_best_fitness_value < candidate_fitness_value ? candidate : current_best
+    end
+  end
+
+  def self.select_worst(candidates:)
+    candidates.inject(candidates.first) do |current_worst, candidate|
+      current_worst_fitness_value = current_worst.fitness_value
+      candidate_fitness_value = candidate.fitness_value
+      current_worst_fitness_value > candidate_fitness_value ? candidate : current_worst
     end
   end
 end
