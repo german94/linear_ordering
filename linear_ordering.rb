@@ -19,13 +19,12 @@ class LinearOrderingSolutionsGenerator
     generate_initial_population
     set_initial_solution
     @max_iterations.times do
-    	firstParent = @parent_selection_criteria.select(population: @population)#arreglar para no tener que repetir la busqueda
-    	secondParent = @parent_selection_criteria.select(population: @population)
-   		offspring = @crossover_criteria.cross(parents: [firstParent, secondParent])
-   		@mutation_criteria.mutate(offspring: offspring, original_matrix: @original_matrix) 
+    	parents = @parent_selection_criteria.select(population: @population)
+   		offspring = @crossover_criteria.cross(parents: parents)
+   		@mutation_criteria.mutate(offspring: offspring, original_matrix: @original_matrix)
    		@survivor_criteria.select(population: @population)
-		addNewOffspring(offspring)
-		select_best
+  		add_new_offspring(offspring)
+  		select_best
     end
     @best_solution
   end
@@ -36,17 +35,17 @@ private
     @best_solution = @best_solution.fitness_value < candidate.fitness_value ? candidate : @best_solution
   end
 
-  def addNewOffspring(offspring)
- 	@population.add(offspring[0])
- 	@population.add(offspring[1])
+  def add_new_offspring(offspring)
+   	@population.add(offspring[0])
+   	@population.add(offspring[1])
   end
-  
+
   def set_initial_solution
     @best_solution = @population.first
   end
 
   def generate_initial_population
-   @population = Set.new 
+   @population = Set.new
     loop do
       row = [*0..dimension - 1].shuffle
       column = [*0..dimension - 1].shuffle

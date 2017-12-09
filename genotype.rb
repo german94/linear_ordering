@@ -1,7 +1,6 @@
 require 'set'
 
 class Genotype
-
   def initialize(rows, cols, original_matrix)
     @rows = rows
     @columns = cols
