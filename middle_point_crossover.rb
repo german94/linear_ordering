@@ -22,7 +22,6 @@ private
 
     crossed_elements = parent_1_elements[start_point..end_point]
     parent_2_elements.each do |elem|
-      break if crossed_elements.size == parent_1_elements.size
       crossed_elements << elem unless crossed_elements.include? elem
     end
     crossed_elements
