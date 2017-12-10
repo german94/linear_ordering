@@ -10,7 +10,7 @@ class RouletteParentSelection
     roulette = generate_roulette(population: population)
     first_parent = select_from_roulette(roulette: roulette)
     roulette_without_first_parent = generate_roulette(population: population, without: [first_parent])
-    [first_parent, select_from_roulette(roulette_without_first_parent)]
+    [first_parent, select_from_roulette(roulette: roulette_without_first_parent)]
   end
 
 private
@@ -38,8 +38,8 @@ private
     normalized_genotypes = normalize_fitness_values(population: population, without: without)
     normalized_fitness_sum = normalized_genotypes.inject(0) { |sum, current| sum + current[:normalized_fitness_value] }
     population_probabilities = {}
-    normalized_genotypes.each do |genotype, normalized_fitness_value|
-      population_probabilities[genotype] = normalized_fitness_value.to_f / normalized_fitness_sum
+    normalized_genotypes.each do |normalized_genotype| # no funciona especificando genotype y normalized_fitness_value, solo reconoce al genotype como {genotype: , normalized_fitness_value:}
+      population_probabilities[normalized_genotype[:genotype]] = normalized_genotype[:normalized_fitness_value].to_f / normalized_fitness_sum #al ser cada elemento del each un normalized_genotype
     end
     population_probabilities
   end
@@ -47,8 +47,7 @@ private
   #esto es necesario porque si algun fitness_value es negativo entonces el calculo de la probabilidad se caga
   def normalize_fitness_values(population:, without:)
     min_fitness_value = population.inject(population.first.fitness_value) do |min, candidate_genotype|
-      return min if without.include?(candidate_genotype)
-      min < candidate_genotype.fitness_value ? min : candidate_genotype.fitness_value
+      without.include?(candidate_genotype) ? min : (min < candidate_genotype.fitness_value ? min : candidate_genotype.fitness_value) #guarda con el return que habia antes salia del metodo! 
     end
     normalized_genotypes = []
     population.each do |genotype|

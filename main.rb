@@ -5,7 +5,7 @@ require './linear_ordering'
 require './middle_point_crossover'
 require './fitness_based_selection'
 require './swap_mutation'
-
+require './roulette_parent_selection'
 
 input_array = ARGV
 name_input_file = input_array[0]
@@ -24,11 +24,13 @@ original_matrix.delete_at(0) #porque lee en primer lugar la dimension de la matr
 
 
 #######
-tournamentParent = TournamentParentSelection.new(num_of_random_elections: num_of_random_elections, original_matrix: original_matrix)
+#selectionCriteria = TournamentParentSelection.new(num_of_random_elections: num_of_random_elections, original_matrix: original_matrix)
+selectionCriteria = RouletteParentSelection.new(num_of_random_elections:num_of_random_elections, original_matrix:original_matrix)
+
 crossover_criteria = MiddlePointCrossover.new(matrix:original_matrix)
 survivor_criteria = FitnessBasedSelection.new
 mutation_criteria = SwapMutation.new(probability)
-linearOrdering = LinearOrderingSolutionsGenerator.new(population_size: population_size, original_matrix:original_matrix, max_iterations:max_iterations, parent_selection_criteria:tournamentParent, crossover_criteria:crossover_criteria, mutation_criteria: mutation_criteria, survivor_criteria: survivor_criteria )
+linearOrdering = LinearOrderingSolutionsGenerator.new(population_size: population_size, original_matrix:original_matrix, max_iterations:max_iterations, parent_selection_criteria:selectionCriteria, crossover_criteria:crossover_criteria, mutation_criteria: mutation_criteria, survivor_criteria: survivor_criteria )
 solution = linearOrdering.generate_solution
 
 matrix = solution.create_permuted_matrix(original_matrix)
