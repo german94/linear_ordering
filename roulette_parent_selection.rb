@@ -47,7 +47,11 @@ private
   #esto es necesario porque si algun fitness_value es negativo entonces el calculo de la probabilidad se caga
   def normalize_fitness_values(population:, without:)
     min_fitness_value = population.inject(population.first.fitness_value) do |min, candidate_genotype|
-      without.include?(candidate_genotype) ? min : (min < candidate_genotype.fitness_value ? min : candidate_genotype.fitness_value) #guarda con el return que habia antes salia del metodo! 
+      if without.include?(candidate_genotype)
+        min
+      else
+        (min < candidate_genotype.fitness_value) ? min : candidate_genotype.fitness_value
+      end
     end
     normalized_genotypes = []
     population.each do |genotype|
