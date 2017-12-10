@@ -31,6 +31,7 @@ private
       probability_sum += probability
       roulette << { genotype: genotype, probability: probability_sum }
     end
+    roulette[-1][:probability] = 1
     roulette
   end
 

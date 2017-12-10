@@ -15,16 +15,17 @@ class LinearOrderingSolutionsGenerator
     @original_matrix.size
   end
 
-  def generate_solution
+  def generate_solution(debug: false)
     generate_initial_population
     set_initial_solution
-    @max_iterations.times do
+    @max_iterations.times do |i|
     	parents = @parent_selection_criteria.select(population: @population)
    		offspring = @crossover_criteria.cross(parents: parents)
    		@mutation_criteria.mutate(offspring: offspring, original_matrix: @original_matrix)
    		@survivor_criteria.select(population: @population)
   		add_new_offspring(offspring)
   		select_best
+      puts "Iteracion: #{i}" if debug
     end
     @best_solution
   end
