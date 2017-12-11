@@ -1,6 +1,6 @@
 require './genotype'
 
-class MiddlePointCrossover
+class MultiPointCrossover
   def initialize(matrix:)
     @original_matrix = matrix
   end

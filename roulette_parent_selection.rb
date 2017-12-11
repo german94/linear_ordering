@@ -1,8 +1,7 @@
 require './genotype'
 
 class RouletteParentSelection
-  def initialize(num_of_random_elections:, original_matrix:)
-    @num_of_random_elections = num_of_random_elections
+  def initialize(original_matrix:) 
     @original_matrix = original_matrix
   end
 

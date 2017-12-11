@@ -2,7 +2,7 @@ require './genotype'
 require './linear_ordering'
 require './tournament_parent_selection'
 require './linear_ordering'
-require './middle_point_crossover'
+require './multi_point_crossover'
 require './fitness_based_selection'
 require './swap_mutation'
 require './roulette_parent_selection'
@@ -13,30 +13,28 @@ probability = input_array[1].to_i
 population_size = input_array[2].to_i
 num_of_random_elections = input_array[3].to_i
 max_iterations = input_array[4].to_i
+parent_selection = input_array[5].to_s
+output_file_name = input_array[6].to_s
 
-
-######
 original_matrix = File.readlines(name_input_file).map do |line|
   line.split.map(&:to_i)
 end
 
 original_matrix.delete_at(0) #porque lee en primer lugar la dimension de la matriz pero no lo uso
 
-
-#######
-#selectionCriteria = TournamentParentSelection.new(num_of_random_elections: num_of_random_elections, original_matrix: original_matrix)
-selectionCriteria = RouletteParentSelection.new(num_of_random_elections:num_of_random_elections, original_matrix:original_matrix)
-
-crossover_criteria = MiddlePointCrossover.new(matrix:original_matrix)
+tournament_selection =  TournamentParentSelection.new(num_of_random_elections: num_of_random_elections, original_matrix: original_matrix)
+roulette_selection = RouletteParentSelection.new(original_matrix:original_matrix)
+selection_criteria = (parent_selection.downcase == 'tournament') ? tournament_selection : roulette_selection
+crossover_criteria = MultiPointCrossover.new(matrix:original_matrix)
 survivor_criteria = FitnessBasedSelection.new
 mutation_criteria = SwapMutation.new(probability)
-linearOrdering = LinearOrderingSolutionsGenerator.new(population_size: population_size, original_matrix:original_matrix, max_iterations:max_iterations, parent_selection_criteria:selectionCriteria, crossover_criteria:crossover_criteria, mutation_criteria: mutation_criteria, survivor_criteria: survivor_criteria )
+linearOrdering = LinearOrderingSolutionsGenerator.new(population_size: population_size, original_matrix:original_matrix, max_iterations:max_iterations, parent_selection_criteria:selection_criteria, crossover_criteria:crossover_criteria, mutation_criteria: mutation_criteria, survivor_criteria: survivor_criteria )
 solution = linearOrdering.generate_solution
 
 matrix = solution.create_permuted_matrix(original_matrix)
 
 # OUTPUT
-output = File.open( name_input_file + "out", "w" )
+output = File.open( output_file_name, "w" )
 output << "best matrix" + "\n"
 matrix.each do |row|
 	output << row.to_s + "\n"
