@@ -44,6 +44,5 @@ end
 output << "best fitness value:"  + "\n"
 output << solution.fitness_value.to_s  + "\n"
 output << "permutation:"  + "\n"
-output << solution.rows.to_s 
-output << solution.cols.to_s + "\n"
+output << solution.permutations.to_s + "\n"
 output.close

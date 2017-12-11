@@ -48,9 +48,8 @@ private
   def generate_initial_population
    @population = Set.new
     loop do
-      row = [*0..dimension - 1].shuffle
-      column = [*0..dimension - 1].shuffle
-      @population << Genotype.new(row, column, @original_matrix)
+      permutations = [*0..dimension - 1].shuffle
+      @population << Genotype.new(permutations, @original_matrix)
       break if @population.size == @population_size
     end
   end

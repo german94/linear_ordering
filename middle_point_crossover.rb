@@ -12,7 +12,7 @@ class MiddlePointCrossover
 
 private
   def generate_child(parent_1, parent_2)
-    Genotype.new cross_elements(parent_1.rows, parent_2.rows), cross_elements(parent_1.cols, parent_2.cols), @original_matrix
+    Genotype.new cross_elements(parent_1.permutations, parent_2.permutations), @original_matrix
   end
 
   def cross_elements(parent_1_elements, parent_2_elements)
