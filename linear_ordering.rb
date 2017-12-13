@@ -15,7 +15,7 @@ class LinearOrderingSolutionsGenerator
     @original_matrix.size
   end
 
-  def generate_solution(debug: false)
+  def generate_solution(debug: true)
     generate_initial_population
     set_initial_solution
     @max_iterations.times do |i|
@@ -25,7 +25,7 @@ class LinearOrderingSolutionsGenerator
    		@survivor_criteria.select(population: @population)
   		add_new_offspring(offspring)
   		select_best
-      puts "Iteracion: #{i}" if debug
+     # puts "Iteracion: #{i}" if debug
     end
     @best_solution
   end
