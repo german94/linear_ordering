@@ -22,6 +22,7 @@ archivos = ["N-r100a2", "N-stabu3_250", "N-t1d500.10", "N-t1d500.25", "N-t65f11x
 for arch in archivos
 	resultados = []
 	values = []
+	output = File.open( arch + '_resultados', "w" )	
 	for prob in probability
 		for parent in parent_selection
 			for pop in population_size
@@ -49,8 +50,7 @@ for arch in archivos
 					matrix = solution.create_permuted_matrix(original_matrix)
 					tiempo_milisec = (Time.now - start) * 1000
 					fitnessValue = solution.fitness_value
-								# OUTPUT
-					output = File.open( arch + '_resultados', "w" )			
+								# OUTPUT		
 					output << "probability to mutate: #{prob}, parent selection: #{parent}, population size: #{pop}, iterations: #{iter}" + "\n"
 					output << "fitness value:"  + "\n"
 					output << fitnessValue.to_s  + "\n"
@@ -59,7 +59,6 @@ for arch in archivos
 					output << "tiempo"
 					output << tiempo_milisec.to_s + "\n"
 					output << "------------------------------" + "\n" + "\n" 
-					output.close
 					resultado << "probability to mutate: #{prob}, parent selection: #{parent}, population size: #{pop}, iterations: #{iter}"
 					resultado << fitnessValue
 					resultado << tiempo_milisec
@@ -77,5 +76,6 @@ for arch in archivos
 	outputMax << (resultados[index_max][2]).to_s + "\n"
 	outputMax << (resultados[index_max][3]).to_s + "\n"
 	outputMax.close
+	output.close
 
 end
