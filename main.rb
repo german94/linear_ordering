@@ -17,7 +17,8 @@ parent_selection = ["roulette", 'tournament']
 #output_file_name = input_array[6].to_s
 
 
-archivos = ["N-r100a2", "N-stabu3_250", "N-t1d500.10", "N-t1d500.25", "N-t65f11xx_250"]
+#archivos = ["N-r100a2", "N-stabu3_250", "N-t1d500.10", "N-t1d500.25", "N-t65f11xx_250"]
+archivos = ["N-t1d500.25"]
 
 for arch in archivos
 	resultados = []
